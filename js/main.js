@@ -145,16 +145,16 @@ function applyLightMapStyle() {
 // This masks out everything outside the five boroughs.
 function buildMaskFeature(features) {
   // Outer ring: CCW world-covering rectangle
+  // Borough rings from source data are CW — opposite winding creates holes
   const outer = [[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]];
   const holes = [];
   for (const f of features) {
     const geom = f.geometry;
     if (geom.type === 'Polygon') {
-      // GeoJSON outer rings are CCW; reverse to CW for a hole
-      holes.push([...geom.coordinates[0]].reverse());
+      holes.push(geom.coordinates[0]);
     } else if (geom.type === 'MultiPolygon') {
       for (const poly of geom.coordinates) {
-        holes.push([...poly[0]].reverse());
+        holes.push(poly[0]);
       }
     }
   }
