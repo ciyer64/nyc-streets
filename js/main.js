@@ -279,10 +279,10 @@ async function enterBorough(boroughId) {
   state.view = 'borough';
   state.activeBorough = boroughId;
 
-  // Zoom to borough — on mobile leave room for the top bar
+  // Zoom to borough — on mobile leave room for the top bar (~140px) and bottom input (~80px)
   map.fitBounds(meta.bounds, {
     padding: isMobile()
-      ? { top: 180, bottom: 100, left: 20, right: 20 }
+      ? { top: 150, bottom: 90, left: 20, right: 20 }
       : 60,
     duration: 800,
   });
