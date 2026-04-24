@@ -141,10 +141,43 @@ function applyLightMapStyle() {
 
 // ── Data loading ──────────────────────────────────────────────────────────────
 
+// Build an inverted polygon: world rectangle with borough shapes as holes.
+// This masks out everything outside the five boroughs.
+function buildMaskFeature(features) {
+  // Outer ring: CCW world-covering rectangle
+  const outer = [[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]];
+  const holes = [];
+  for (const f of features) {
+    const geom = f.geometry;
+    if (geom.type === 'Polygon') {
+      // GeoJSON outer rings are CCW; reverse to CW for a hole
+      holes.push([...geom.coordinates[0]].reverse());
+    } else if (geom.type === 'MultiPolygon') {
+      for (const poly of geom.coordinates) {
+        holes.push([...poly[0]].reverse());
+      }
+    }
+  }
+  return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [outer, ...holes] } };
+}
+
 async function loadBoroughBoundaries() {
   const res = await fetch('data/boroughs.geojson');
   const geojson = await res.json();
 
+  // ── Mask: covers everything outside NYC ──────────────────────
+  map.addSource('nyc-mask', {
+    type: 'geojson',
+    data: { type: 'FeatureCollection', features: [buildMaskFeature(geojson.features)] },
+  });
+  map.addLayer({
+    id: 'nyc-mask-fill',
+    type: 'fill',
+    source: 'nyc-mask',
+    paint: { 'fill-color': '#f8f6f2', 'fill-opacity': 1 },
+  });
+
+  // ── Borough fills & outlines ──────────────────────────────────
   map.addSource('boroughs', { type: 'geojson', data: geojson, generateId: true });
 
   // Fill — dim normally, brighter on hover
