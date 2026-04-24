@@ -40,6 +40,8 @@ function saveProgress() {
 
 // ── Map setup ─────────────────────────────────────────────────────────────────
 
+const isMobile = () => window.innerWidth <= 767;
+
 const map = new maplibregl.Map({
   container: 'map',
   style: 'https://tiles.openfreemap.org/styles/positron',
@@ -47,6 +49,7 @@ const map = new maplibregl.Map({
   zoom: 10,
   minZoom: 9,
   maxZoom: 16,
+  maxBounds: [[-75.2, 40.1], [-72.8, 41.3]], // prevent panning into white abyss
   attributionControl: false,
 });
 
@@ -55,9 +58,11 @@ map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-lef
 map.on('load', async () => {
   applyLightMapStyle();
 
-  // Fit to all five boroughs (extra right padding for the score panel)
+  // Fit to all five boroughs — account for panel position per device
   map.fitBounds([[-74.26, 40.47], [-73.70, 40.93]], {
-    padding: { top: 60, bottom: 40, left: 40, right: 260 },
+    padding: isMobile()
+      ? { top: 200, bottom: 60, left: 20, right: 20 }
+      : { top: 60,  bottom: 40, left: 40, right: 260 },
     duration: 0,
   });
 
@@ -274,8 +279,13 @@ async function enterBorough(boroughId) {
   state.view = 'borough';
   state.activeBorough = boroughId;
 
-  // Zoom to borough
-  map.fitBounds(meta.bounds, { padding: 40, duration: 800 });
+  // Zoom to borough — on mobile leave room for the top bar
+  map.fitBounds(meta.bounds, {
+    padding: isMobile()
+      ? { top: 180, bottom: 100, left: 20, right: 20 }
+      : 60,
+    duration: 800,
+  });
 
   // Load street data
   await Promise.all([
@@ -307,6 +317,14 @@ async function enterBorough(boroughId) {
   updateDetailPanel();
   updateFoundList(boroughId);
   setupGuessInput();
+
+  // On mobile: collapse found list by default; tap header to expand
+  if (isMobile()) {
+    const list   = document.getElementById('found-list');
+    const header = document.getElementById('found-header');
+    list.classList.add('mobile-hidden');
+    header.classList.remove('list-open');
+  }
 }
 
 async function addStreetLayers(boroughId) {
@@ -491,10 +509,19 @@ document.getElementById('back-btn').addEventListener('click', () => {
   state.view = 'overview';
   state.activeBorough = null;
 
-  map.flyTo({ center: [-74.05, 40.700], zoom: 10, duration: 800 });
+  map.fitBounds([[-74.26, 40.47], [-73.70, 40.93]], {
+    padding: isMobile()
+      ? { top: 200, bottom: 60, left: 20, right: 20 }
+      : { top: 60,  bottom: 40, left: 40, right: 260 },
+    duration: 800,
+  });
 
   document.getElementById('detail-panel').classList.add('hidden');
   document.getElementById('score-panel').classList.remove('hidden');
+
+  // Reset mobile found-list state
+  document.getElementById('found-list').classList.remove('mobile-hidden');
+  document.getElementById('found-header').classList.remove('list-open');
 
   // Restore overview fill/outline opacities
   map.setPaintProperty('boroughs-fill', 'fill-opacity', [
@@ -599,3 +626,12 @@ function updateDetailPanel() {
   document.getElementById('detail-count').textContent =
     `${count} of ${total} streets`;
 }
+
+// ── Mobile: tap found-header to show/hide the list ────────────────────────────
+document.getElementById('found-header').addEventListener('click', () => {
+  if (!isMobile()) return;
+  const list   = document.getElementById('found-list');
+  const header = document.getElementById('found-header');
+  const isHidden = list.classList.toggle('mobile-hidden');
+  header.classList.toggle('list-open', !isHidden);
+});

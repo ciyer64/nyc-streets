@@ -251,7 +251,7 @@ html, body {
   margin: 0 -4px;
 }
 
-#found-list.hidden, #found-header.hidden { display: none; }
+#found-list.hidden, #found-list.mobile-hidden, #found-header.hidden { display: none; }
 
 .found-row {
   display: flex;
@@ -295,4 +295,90 @@ html, body {
   color: rgba(0,0,0,0.35);
   font-size: 14px;
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Mobile layout ───────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Score panel: full-width top bar */
+  #score-panel {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 12px 16px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  }
+
+  /* Detail panel: compact top strip only */
+  #detail-panel {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    border-left: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    padding: 12px 16px;
+    gap: 8px;
+    overflow: visible;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  }
+
+  /* Found list: not flex-expanding, collapsible */
+  #found-list {
+    flex: none;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+
+  /* Found header: tap target with chevron */
+  #found-header {
+    cursor: pointer;
+    user-select: none;
+    justify-content: space-between;
+  }
+
+  #found-header::after {
+    content: '▸';
+    font-size: 11px;
+    color: rgba(0,0,0,0.4);
+    margin-left: 6px;
+  }
+
+  #found-header.list-open::after {
+    content: '▾';
+  }
+
+  /* Input: fixed to bottom of screen */
+  #guess-input {
+    position: fixed;
+    bottom: 20px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 20;
+  }
+
+  /* Feedback: above the fixed input */
+  #guess-feedback {
+    position: fixed;
+    bottom: 72px;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  /* Credits: avoid overlap with iOS home bar */
+  #credits {
+    bottom: 28px;
+  }
 }
