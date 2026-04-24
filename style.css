@@ -25,6 +25,22 @@ html, body {
   transition: opacity 0.4s ease;
 }
 
+/* ── Overview prompt ─────────────────────────────────────────── */
+#overview-prompt {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+#overview-prompt.hidden { display: none; }
+
 /* ── Score panel (top right) ─────────────────────────────────── */
 #score-panel {
   position: absolute;

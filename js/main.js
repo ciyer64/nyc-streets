@@ -295,6 +295,7 @@ async function enterBorough(boroughId) {
 
   // Swap panels
   document.getElementById('score-panel').classList.add('hidden');
+  document.getElementById('overview-prompt').classList.add('hidden');
   document.getElementById('detail-panel').classList.remove('hidden');
   document.getElementById('detail-name').textContent = meta.name;
 
@@ -518,6 +519,7 @@ document.getElementById('back-btn').addEventListener('click', () => {
 
   document.getElementById('detail-panel').classList.add('hidden');
   document.getElementById('score-panel').classList.remove('hidden');
+  document.getElementById('overview-prompt').classList.remove('hidden');
 
   // Reset mobile found-list state
   document.getElementById('found-list').classList.remove('mobile-hidden');
