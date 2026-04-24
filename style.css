@@ -14,7 +14,14 @@ html, body {
 #map {
   position: absolute;
   inset: 0;
-  opacity: 0;
+}
+
+#map-cover {
+  position: absolute;
+  inset: 0;
+  background: #f8f6f2;
+  z-index: 5;
+  pointer-events: none;
   transition: opacity 0.4s ease;
 }
 

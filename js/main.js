@@ -67,9 +67,11 @@ map.on('load', async () => {
   setupOverviewInteractions();
   updateScorePanel();
 
-  // Reveal the map only after the first styled frame is fully rendered
+  // Lift the cover only after the map is fully styled and idle
   map.once('idle', () => {
-    document.getElementById('map').style.opacity = '1';
+    const cover = document.getElementById('map-cover');
+    cover.style.opacity = '0';
+    cover.addEventListener('transitionend', () => cover.remove(), { once: true });
   });
 });
 
