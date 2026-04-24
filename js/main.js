@@ -66,6 +66,11 @@ map.on('load', async () => {
   await loadSummary();
   setupOverviewInteractions();
   updateScorePanel();
+
+  // Reveal the map only after the first styled frame is fully rendered
+  map.once('idle', () => {
+    document.getElementById('map').style.opacity = '1';
+  });
 });
 
 function applyLightMapStyle() {
