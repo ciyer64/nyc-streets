@@ -1,0 +1,22 @@
+{
+  "manhattan": {
+    "street_count": 520,
+    "segment_count": 7124
+  },
+  "brooklyn": {
+    "street_count": 1024,
+    "segment_count": 12458
+  },
+  "queens": {
+    "street_count": 1550,
+    "segment_count": 18103
+  },
+  "bronx": {
+    "street_count": 870,
+    "segment_count": 8097
+  },
+  "staten_island": {
+    "street_count": 347,
+    "segment_count": 3637
+  }
+}

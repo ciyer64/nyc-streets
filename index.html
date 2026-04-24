@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Name NYC Streets 🗽</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗽</text></svg>">
+  <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- Top-right score panel -->
+  <div id="score-panel">
+    <div id="overall-row">
+      <span id="panel-title">NYC Streets</span>
+      <span id="overall-pct">0%</span>
+    </div>
+    <div id="overall-bar-wrap"><div id="overall-bar"></div></div>
+    <div id="borough-list">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- Borough detail overlay (hidden until a borough is selected) -->
+  <div id="detail-panel" class="hidden">
+    <button id="back-btn">← All boroughs</button>
+    <div id="detail-header">
+      <span id="detail-name"></span>
+      <span id="detail-pct">0%</span>
+    </div>
+    <div id="detail-bar-wrap"><div id="detail-bar"></div></div>
+    <div id="detail-count"></div>
+    <input id="guess-input" type="text" placeholder="Type a street name…" autocomplete="off" spellcheck="false">
+    <div id="guess-feedback"></div>
+    <div id="found-header" class="hidden">
+      <span id="found-count"></span>
+    </div>
+    <div id="found-list" class="hidden"></div>
+  </div>
+
+  <div id="credits">
+    Inspired by <a href="https://github.com/carvin/sf-street-names" target="_blank" rel="noopener">carvin/sf-street-names</a>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
