@@ -82,8 +82,8 @@ map.on('load', async () => {
 
 function applyLightMapStyle() {
   const WHITE      = '#f8f6f2';  // warm white background (matches website)
-  const LAND       = '#f8f6f2';  // same as background — outside land vanishes
-  const WATER      = '#f8f6f2';  // same as background — rivers/bay vanish
+  const LAND       = '#f0ede8';  // warm cream for land areas
+  const WATER      = '#dce8f2';  // light blue for water / coastline visibility
   const ROAD       = '#e2ddd7';  // very subtle road lines
   const BORDER     = '#d0ccc6';  // faint borders
 
