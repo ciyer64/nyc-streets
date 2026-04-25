@@ -319,12 +319,12 @@ async function enterBorough(boroughId) {
   updateFoundList(boroughId);
   setupGuessInput();
 
-  // On mobile: collapse found list by default; tap header to expand
+  // On mobile: collapse found list by default; tap detail-count to expand
   if (isMobile()) {
-    const list   = document.getElementById('found-list');
-    const header = document.getElementById('found-header');
+    const list  = document.getElementById('found-list');
+    const count = document.getElementById('detail-count');
     list.classList.add('mobile-hidden');
-    header.classList.remove('list-open');
+    count.classList.remove('list-open');
   }
 }
 
@@ -523,7 +523,7 @@ document.getElementById('back-btn').addEventListener('click', () => {
 
   // Reset mobile found-list state
   document.getElementById('found-list').classList.remove('mobile-hidden');
-  document.getElementById('found-header').classList.remove('list-open');
+  document.getElementById('detail-count').classList.remove('list-open');
 
   // Restore overview fill/outline opacities
   map.setPaintProperty('boroughs-fill', 'fill-opacity', [
@@ -629,11 +629,11 @@ function updateDetailPanel() {
     `${count} of ${total} streets`;
 }
 
-// ── Mobile: tap found-header to show/hide the list ────────────────────────────
-document.getElementById('found-header').addEventListener('click', () => {
+// ── Mobile: tap detail-count to show/hide the found list ─────────────────────
+document.getElementById('detail-count').addEventListener('click', () => {
   if (!isMobile()) return;
-  const list   = document.getElementById('found-list');
-  const header = document.getElementById('found-header');
+  const list  = document.getElementById('found-list');
+  const count = document.getElementById('detail-count');
   const isHidden = list.classList.toggle('mobile-hidden');
-  header.classList.toggle('list-open', !isHidden);
+  count.classList.toggle('list-open', !isHidden);
 });
