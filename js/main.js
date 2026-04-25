@@ -62,7 +62,7 @@ map.on('load', async () => {
   map.fitBounds([[-74.26, 40.47], [-73.70, 40.93]], {
     padding: isMobile()
       ? { top: 200, bottom: 60, left: 20, right: 20 }
-      : { top: 60,  bottom: 40, left: 40, right: 260 },
+      : { top: 60,  bottom: 40, left: 40, right: 360 },
     duration: 0,
   });
 
@@ -513,7 +513,7 @@ document.getElementById('back-btn').addEventListener('click', () => {
   map.fitBounds([[-74.26, 40.47], [-73.70, 40.93]], {
     padding: isMobile()
       ? { top: 200, bottom: 60, left: 20, right: 20 }
-      : { top: 60,  bottom: 40, left: 40, right: 260 },
+      : { top: 60,  bottom: 40, left: 40, right: 360 },
     duration: 800,
   });
 
